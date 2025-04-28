@@ -1,0 +1,79 @@
+# Definindo a função principal -main, para a exibição/procura de dados, cadastro e listagem
+
+def main():
+    pessoas = []  # Lista principal onde serão armazenadas as informações de cada pessoa!
+
+    while True: # Criação do loop para que o menu permaneça na tela até ser interrompido 
+        exibir_menu()  # Exibe o menu de opções para o usuário
+        try:
+            opcao = int(input('Escolha sua opção: '))  # Recebe a escolha do usuário
+        except ValueError:
+            print("Digite um número válido!")  # Trata erros caso a entrada não seja um número
+            continue
+
+        if opcao == 1:
+            cadastrar(pessoas)  # Chama a função de cadastro
+        elif opcao == 2:
+            listar(pessoas)  # Chama a função de listagem
+        elif opcao == 3:
+            buscar(pessoas)  # Chama a função de busca
+        elif opcao == 0:
+            print("Encerrando o programa...")  # Mensagem de saída
+            break  # Encerra o loop e finaliza o programa
+        else:
+            print('Opção inválida')  # Informa se a opção escolhida não é reconhecida
+
+
+# Definindo o exibir_menu e parametros a serem escolhidos
+
+def exibir_menu():
+    print('''\nEscolha uma opção:
+          
+    1. Cadastrar uma pessoa
+    2. Listar pessoas cadastradas
+    3. Procurar dados de uma pessoa (pelo nome)
+    0. Deseja sair do programa
+    ''')
+
+
+# Criação do bloco, com a função de cadastro do usuário com os seguintes parametrôs; nome, idade e email. O nome e email sendo do tipo string e a idade tipo int!
+def cadastrar(pessoas):
+    nome = input('Qual seu nome completo? ')
+    try:
+        idade = int(input('Qual a sua idade? '))  # Garante que a idade seja um número inteiro.
+    except ValueError:
+        print("Idade inválida! Use apenas números.")  # Trata erro de entrada incorreta, caso o usuário tente quebrar o programa usando caracteres.
+        return
+    email = input('Qual seu e-mail? ')
+
+    # Validação ANTES de adicionar 
+    if "@" not in email or "." not in email:
+        print("E-mail inválido. Tente novamente.")  # Verifica se o e-mail tem os símbolos básicos.
+        return
+    pessoas.append([nome, idade, email])  # Usando lista aqui.
+    print("Cadastro realizado com sucesso!")  # Confirma o cadastro.
+
+# Criação da função listar
+def listar(pessoas):
+    if not pessoas: # Caso a lista esteja vazia
+        print("Nenhuma pessoa cadastrada ainda.") 
+        return
+    for pessoa in pessoas:
+        nome, idade, email = pessoa  # Desempacotando a lista.
+        print(f'Nome: {nome}, Idade: {idade}, E-mail: {email}')  # Exibe os dados formatados.
+
+
+#Criação da função buscar
+def buscar(pessoas):
+    nome_desejado = input('Digite o nome da pessoa que deseja buscar: ')  # Entrada do nome a procurar.
+    for pessoa in pessoas:
+        nome, idade, email = pessoa  # Desempacotando a lista novamente.
+        if nome == nome_desejado:
+            print(f'Nome: {nome}, Idade: {idade}, E-mail: {email}')  # Exibe se encontrou.
+            break
+    else:
+        print(f'Essa pessoa chamada "{nome_desejado}" não foi encontrada.')  # Caso não ache ninguém.
+
+# Inicia o programa
+
+main()
